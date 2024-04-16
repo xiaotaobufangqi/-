@@ -46,11 +46,12 @@ void CPLine::Draw(CDC *pDC,int Mode,int buff)
 		pDC->SelectObject(&pen);
 		pDC->SetROP2(R2_COPYPEN);
 		pDC->SetBkMode(TRANSPARENT);
-		/*CBrush *oldbrush;
-		CBrush brush(m_ColorBrush);
+		CBrush *oldbrush;
+		CBrush brush(m_BrushType,m_ColorBrush);
 	    oldbrush=pDC->SelectObject(&brush);
 		pDC->SetBkColor(m_ColorBrush);
-	    pDC->SetPolyFillMode(WINDING);*/
+	    pDC->SetPolyFillMode(WINDING);
+
 		if(m_lb==5)  //»æÖÆÖ±Ïß
 		{
 			pDC->Polyline(ppoint,m_Numble);

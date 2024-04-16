@@ -11,6 +11,7 @@
 
 #include "GIS21_图说地理Doc.h"
 #include "GIS21_图说地理View.h"
+#include "Tool.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -44,11 +45,12 @@ BEGIN_MESSAGE_MAP(CGIS21_图说地理View, CView)
 	ON_WM_LBUTTONDBLCLK()
 	ON_WM_MOUSEMOVE()
 	ON_WM_RBUTTONDOWN()
+	ON_COMMAND(ID_Tool, &CGIS21_图说地理View::OnTool)
 END_MESSAGE_MAP()
 
 // CGIS21_图说地理View 构造/析构
 
-CGIS21_图说地理View::CGIS21_图说地理View():m_pen(PS_SOLID,2,RGB(255,0,0)),m_brush(3,RGB(0,0,255))
+CGIS21_图说地理View::CGIS21_图说地理View():m_pen(PS_SOLID,2,RGB(255,0,0)),m_brush(1,RGB(0,0,255))
 {
 	// TODO: 在此处添加构造代码
 	m_pColor=RGB(0,0,255);  //设置笔色
@@ -349,4 +351,30 @@ void CGIS21_图说地理View::OnRButtonDown(UINT nFlags, CPoint point)
 		ReleaseCapture();  //释放捕捉的鼠标
 	}
 	CView::OnRButtonDown(nFlags, point);
+}
+
+
+void CGIS21_图说地理View::OnTool()
+{
+	// TODO: 在此添加命令处理程序代码
+	CTool dd;
+	dd.pColor=m_pColor;
+	dd.brColor=m_brColor;
+	dd.kd=m_LineWide;
+	dd.pent=m_LineType;
+	dd.brusht=m_BrushType;
+	if(dd.DoModal()==IDOK)
+	{
+		m_LineWide=dd.kd;
+		m_pColor=dd.pColor;
+		m_brColor=dd.brColor ;
+		m_LineType=dd.pent;
+		m_BrushType=dd.brusht;
+		if(m_LineType!=0) 
+			m_LineType=1;
+		m_pen.DeleteObject();
+		m_pen.CreatePen(m_LineType,m_LineWide,m_pColor);
+		m_brush.DeleteObject();
+		m_brush.CreateHatchBrush(m_BrushType,m_brColor);
+	}
 }

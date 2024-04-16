@@ -73,6 +73,7 @@ public:
 	afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
 	afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
+	afx_msg void OnTool();
 };
 
 #ifndef _DEBUG  // GIS21_图说地理View.cpp 中的调试版本

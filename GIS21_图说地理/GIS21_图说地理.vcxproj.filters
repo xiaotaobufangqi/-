@@ -72,6 +72,9 @@
     <ClInclude Include="Text.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Tool.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GIS21_图说地理.cpp">
@@ -102,6 +105,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Text.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Tool.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
