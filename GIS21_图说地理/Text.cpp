@@ -18,3 +18,8 @@ CText::CText(COLORREF ColorPen,COLORREF ColorBrush,short LineWide,short LineType
 CText::~CText(void)
 {
 }
+
+void CText::Draw(CDC *pDC,int Mode,int buff)
+{
+
+}

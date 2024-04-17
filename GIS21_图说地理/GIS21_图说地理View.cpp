@@ -76,13 +76,13 @@ BOOL CGIS21_图说地理View::PreCreateWindow(CREATESTRUCT& cs)
 
 // CGIS21_图说地理View 绘制
 
-void CGIS21_图说地理View::OnDraw(CDC* /*pDC*/)
+void CGIS21_图说地理View::OnDraw(CDC* pDC)
 {
 	CGIS21_图说地理Doc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
 	if (!pDoc)
 		return;
-
+	pDoc->Draw(pDC,0);
 	// TODO: 在此处为本机数据添加绘制代码
 }
 
@@ -370,8 +370,7 @@ void CGIS21_图说地理View::OnTool()
 		m_brColor=dd.brColor ;
 		m_LineType=dd.pent;
 		m_BrushType=dd.brusht;
-		if(m_LineType!=0) 
-			m_LineType=1;
+		
 		m_pen.DeleteObject();
 		m_pen.CreatePen(m_LineType,m_LineWide,m_pColor);
 		m_brush.DeleteObject();

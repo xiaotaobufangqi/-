@@ -33,6 +33,8 @@ protected: // 仅从序列化创建
 	void clea();  //清空图形元素
 	void DeleteGraph(short Lb,int Index);
 
+	void Draw(CDC *pDC,int m_DrawMode);
+
 // 特性
 public:
 

@@ -268,3 +268,15 @@ void CGIS21_图说地理Doc::DeleteGraph(short Lb,int Index)
 		return ;
 	}
 }
+
+void CGIS21_图说地理Doc::Draw(CDC *pDC,int m_DrawMode)
+{
+	for(int i=1;i<=3;i++)
+	{
+		int nn=GetGraphUpperBound(i);
+		for(int j=0;j<=nn;j++)
+		{
+			GetGraph(i,j)->Draw(pDC,m_DrawMode,0);
+		}
+	}
+}

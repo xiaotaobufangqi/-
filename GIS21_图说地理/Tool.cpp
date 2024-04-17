@@ -104,7 +104,7 @@ void CTool::OnLbnSelchangeList1()
 		kd=1;
 		slider.SetPos(kd);
 	}
-	
+	UpdateData(0);
 }
 
 

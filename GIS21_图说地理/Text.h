@@ -5,7 +5,7 @@ class CText :
 {
 public:
 	CText(COLORREF ColorPen,COLORREF ColorBrush,short LineWide,short LineType,short BrushType,int id_only,BOOL Delete,float StartX,float StartY,float Angle,float TextHeight,float TextWide,float FontWeight,CString Text);
-	
+	void Draw(CDC *pDC,int Mode,int buff);
 	~CText(void);
 protected:
 	float m_StartX;//文本起点横坐标
