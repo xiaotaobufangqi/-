@@ -58,6 +58,7 @@ void CPLine::Draw(CDC *pDC,int Mode,int buff)
 		}
 		if(m_lb==6)  //»æÖÆ¶à±ßÐÎ
 		{
+			if(m_BrushType==6) pDC->SelectStockObject(NULL_BRUSH);
 			pDC->Polygon(ppoint,m_Numble);
 		}
 }

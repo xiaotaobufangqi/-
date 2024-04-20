@@ -68,6 +68,7 @@ BOOL CTool::OnInitDialog()
 	btype.AddString (_T("×óÐ±   "));
 	btype.AddString (_T("Ê®×Ö½»²æ   "));
 	btype.AddString (_T("Ð±Ïß½»²æ   "));
+	btype.AddString(_T("¿Õ°×   "));
 	//btype.AddString (_T("°®ÐÄÎ»Í¼Ìî³ä   "));
 	slider.SetRange(1,20,TRUE);    slider.SetPos(kd);
 	ptype.SetCurSel (pent);   btype.SetCurSel (brusht);

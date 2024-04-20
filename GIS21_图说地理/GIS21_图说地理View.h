@@ -74,6 +74,8 @@ public:
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
 	afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
 	afx_msg void OnTool();
+	afx_msg void OnDrawText();
+	afx_msg void OnUpdateDrawText(CCmdUI *pCmdUI);
 };
 
 #ifndef _DEBUG  // GIS21_图说地理View.cpp 中的调试版本

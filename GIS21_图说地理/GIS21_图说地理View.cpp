@@ -12,6 +12,7 @@
 #include "GIS21_图说地理Doc.h"
 #include "GIS21_图说地理View.h"
 #include "Tool.h"
+#include "TextDlg.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -46,6 +47,8 @@ BEGIN_MESSAGE_MAP(CGIS21_图说地理View, CView)
 	ON_WM_MOUSEMOVE()
 	ON_WM_RBUTTONDOWN()
 	ON_COMMAND(ID_Tool, &CGIS21_图说地理View::OnTool)
+	ON_COMMAND(ID_draw_text, &CGIS21_图说地理View::OnDrawText)
+	ON_UPDATE_COMMAND_UI(ID_draw_text, &CGIS21_图说地理View::OnUpdateDrawText)
 END_MESSAGE_MAP()
 
 // CGIS21_图说地理View 构造/析构
@@ -200,6 +203,30 @@ void CGIS21_图说地理View::OnLButtonDown(UINT nFlags, CPoint point)
 		mPointOrign=mPointOld;
 		mPointOld=point;
 		PushNumb++;
+	}
+	else if(m_DrawCurrent==7)
+	{
+		float m_FontHeight,m_FontWide,m_TextAngle,m_FontWeight;
+		float m_TextX,m_TextY;
+		CString m_TextString; //存储标注的文字
+		int TextLong;
+		CTextDlg dd;
+		dd.pColor=m_pColor;
+		if(dd.DoModal()==IDOK)
+		{
+			m_TextString=dd.m_text;
+			m_TextAngle=dd.m_angle;
+			m_FontHeight=dd.m_high;
+			m_FontWide=dd.m_width;
+			m_FontWeight=dd.m_weight;
+			TextLong=dd.m_text.GetLength(); //标注文字的长度
+			if(TextLong>0)
+			{
+				m_TextX=point.x,m_TextY=point.y;
+				id_only=pDoc->GetGraphID(3);
+				pDoc->AddText(m_pColor,m_brColor,m_LineWide,m_LineType,m_BrushType,id_only,m_TextX,m_TextY,m_TextAngle,m_FontHeight,m_FontWide,m_FontWeight,m_TextString)->Draw(&ht,0,0);
+			}
+		}
 	}
 	CView::OnLButtonDown(nFlags, point);
 }
@@ -376,4 +403,19 @@ void CGIS21_图说地理View::OnTool()
 		m_brush.DeleteObject();
 		m_brush.CreateHatchBrush(m_BrushType,m_brColor);
 	}
+}
+
+
+void CGIS21_图说地理View::OnDrawText()
+{
+	// TODO: 在此添加命令处理程序代码
+	PushNumb=0;
+	m_DrawCurrent=7;
+}
+
+
+void CGIS21_图说地理View::OnUpdateDrawText(CCmdUI *pCmdUI)
+{
+	// TODO: 在此添加命令更新用户界面处理程序代码
+	pCmdUI->SetRadio(m_DrawCurrent==7);
 }
