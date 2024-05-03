@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 #include "Text.h"
 #include <math.h>
+IMPLEMENT_SERIAL(CText,CObject,1);
 
 CText::CText(COLORREF ColorPen,COLORREF ColorBrush,short LineWide,short LineType,short BrushType,int id_only,BOOL Delete,float StartX,float StartY,float Angle,float TextHeight,float TextWide,float FontWeight,CString Text):CDraw(ColorPen,ColorBrush,LineWide,LineType,BrushType,id_only,Delete)
 {
@@ -14,6 +15,9 @@ CText::CText(COLORREF ColorPen,COLORREF ColorBrush,short LineWide,short LineType
 	m_TextLong=Text.GetLength();
 }
 
+CText::CText(void)
+{
+}
 
 CText::~CText(void)
 {
@@ -41,4 +45,17 @@ void CText::Draw(CDC *pDC,int Mode,int buff)
 	pDC->TextOut(cc1,cc2,m_Text); //ÔÚÆÁÄ»ÉÏÐ´×Ö·û//ÎÄ±¾×Ö·û
 	pDC->SetBkMode(OPAQUE);
 	pDC->SelectObject(cjcbakf); //»Ö¸´×ÖÄ£
+}
+
+void CText::Serialize(CArchive& ar)
+{
+	CDraw::Serialize(ar);
+	if (ar.IsStoring())
+	{	// storing code
+		ar<<m_Angle<<m_FontWeight<<m_StartX<<m_StartY<<m_Text<<m_TextHeight<<m_TextLong<<m_TextWide;
+	}
+	else
+	{	// loading code
+		ar>>m_Angle>>m_FontWeight>>m_StartX>>m_StartY>>m_Text>>m_TextHeight>>m_TextLong>>m_TextWide;
+	}
 }

@@ -1,6 +1,6 @@
 #include "StdAfx.h"
 #include "PLine.h"
-
+IMPLEMENT_SERIAL(CPLine,CObject,1)
 
 CPLine::CPLine(void)
 {
@@ -61,4 +61,22 @@ void CPLine::Draw(CDC *pDC,int Mode,int buff)
 			if(m_BrushType==6) pDC->SelectStockObject(NULL_BRUSH);
 			pDC->Polygon(ppoint,m_Numble);
 		}
+}
+
+void CPLine::Serialize(CArchive& ar)
+{
+	CDraw::Serialize(ar);
+	if (ar.IsStoring())
+	{	// storing code
+		ar<<m_lb<<m_Numble;
+		for(int i=0;i<m_Numble;i++)
+			ar<<m_PointList[i].x<<m_PointList[i].y;
+	}
+	else
+	{	// loading code
+		ar>>m_lb>>m_Numble;
+		m_PointList=new PointStruct[m_Numble];
+		for(int i=0;i<m_Numble;i++)
+			ar>>m_PointList[i].x>>m_PointList[i].y;
+	}
 }

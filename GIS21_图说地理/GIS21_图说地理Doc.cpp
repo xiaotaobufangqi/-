@@ -57,14 +57,9 @@ BOOL CGIS21_图说地理Doc::OnNewDocument()
 
 void CGIS21_图说地理Doc::Serialize(CArchive& ar)
 {
-	if (ar.IsStoring())
-	{
-		// TODO: 在此添加存储代码
-	}
-	else
-	{
-		// TODO: 在此添加加载代码
-	}
+	m_PLineArray.Serialize(ar);
+	m_PointArray.Serialize(ar);
+	m_TextArray.Serialize(ar);
 }
 
 #ifdef SHARED_HANDLERS

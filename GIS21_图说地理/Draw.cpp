@@ -28,3 +28,15 @@ int CDraw::GetID()
 {
 	return m_id_only;
 }
+
+void CDraw::Serialize(CArchive& ar)
+{
+	if (ar.IsStoring())
+	{	// storing code
+		ar<<b_Delete<<m_ColorPen<<m_ColorBrush<<m_LineWide<<m_LineType<<m_BrushType<<m_id_only;
+	}
+	else
+	{	// loading code
+		ar>>b_Delete>>m_ColorPen>>m_ColorBrush>>m_LineWide>>m_LineType>>m_BrushType>>m_id_only;
+	}
+}

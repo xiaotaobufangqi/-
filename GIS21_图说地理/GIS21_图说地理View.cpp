@@ -49,6 +49,7 @@ BEGIN_MESSAGE_MAP(CGIS21_图说地理View, CView)
 	ON_COMMAND(ID_Tool, &CGIS21_图说地理View::OnTool)
 	ON_COMMAND(ID_draw_text, &CGIS21_图说地理View::OnDrawText)
 	ON_UPDATE_COMMAND_UI(ID_draw_text, &CGIS21_图说地理View::OnUpdateDrawText)
+	ON_COMMAND(ID_jiazaiditu, &CGIS21_图说地理View::OnJiazaiditu)
 END_MESSAGE_MAP()
 
 // CGIS21_图说地理View 构造/析构
@@ -409,7 +410,7 @@ void CGIS21_图说地理View::OnTool()
 void CGIS21_图说地理View::OnDrawText()
 {
 	// TODO: 在此添加命令处理程序代码
-	PushNumb=0;
+	PushNumb=0; 
 	m_DrawCurrent=7;
 }
 
@@ -417,5 +418,12 @@ void CGIS21_图说地理View::OnDrawText()
 void CGIS21_图说地理View::OnUpdateDrawText(CCmdUI *pCmdUI)
 {
 	// TODO: 在此添加命令更新用户界面处理程序代码
-	pCmdUI->SetRadio(m_DrawCurrent==7);
+	pCmdUI->SetRadio(m_DrawCurrent==7); 
+}
+
+
+void CGIS21_图说地理View::OnJiazaiditu()
+{
+	// TODO: 在此添加命令处理程序代码
+	m_DrawCurrent=0;	CClientDC ddd(this);	CImage m_image;	CFileDialog dlg(TRUE); if(dlg.DoModal()==IDOK)    {  CString  name=dlg.GetPathName();	m_image.Load(name);	if ( m_image.IsNull()){	MessageBox(_T("没加载成功")); return ;} if ( m_image.GetBPP() == 32) {	int i, j;	for (i = 0; i <  m_image.GetWidth(); i++)	{	for (j = 0; j <  m_image.GetHeight(); j++)		{	byte *pByte = (byte *) m_image.GetPixelAddress(i, j);			pByte[0] = pByte[0] * pByte[3] / 255;			pByte[1] = pByte[1] * pByte[3] / 255;			pByte[2] = pByte[2] * pByte[3] / 255;		}	}} m_image.Draw(ddd.m_hDC, 0, 0);  m_image.Destroy();}
 }

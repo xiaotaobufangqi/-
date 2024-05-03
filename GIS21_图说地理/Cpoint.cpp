@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 #include "Cpoint.h"
 #include <math.h>
+IMPLEMENT_SERIAL(Cpoint,CObject,1)
 
 
 Cpoint::Cpoint(void)
@@ -63,4 +64,17 @@ void Cpoint::Draw(CDC *pDC,int Mode,int buff)
 	if(m_Lb==4) pDC->Polygon(&lines[0], lines.GetSize());//ÐÄÐÎ
 	pDC->SelectObject(oldbrush);
 
+}
+
+void Cpoint::Serialize(CArchive& ar)
+{
+	CDraw::Serialize(ar);
+	if (ar.IsStoring())
+	{	// storing code
+		ar<<m_CircleR<<m_CircleX<<m_CircleY<<m_Lb;
+	}
+	else
+	{	// loading code
+		ar>>m_CircleR>>m_CircleX>>m_CircleY>>m_Lb;
+	}
 }

@@ -26,5 +26,7 @@ protected:
 	BOOL b_Delete;//是否处于删除状态
 	short m_layer;//所处图层
 
+public:
+	virtual void Serialize(CArchive& ar);
 };
 

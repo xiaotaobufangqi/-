@@ -76,6 +76,7 @@ public:
 	afx_msg void OnTool();
 	afx_msg void OnDrawText();
 	afx_msg void OnUpdateDrawText(CCmdUI *pCmdUI);
+	afx_msg void OnJiazaiditu();
 };
 
 #ifndef _DEBUG  // GIS21_图说地理View.cpp 中的调试版本
