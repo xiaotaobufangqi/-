@@ -41,6 +41,23 @@ void CPLine::Draw(CDC *pDC,int Mode,int buff)
 		ppoint[i].y=m_PointList[i].y;
 	}
 		CPen pen;
+
+		if(Mode==1) //被鼠标选择后黄颜色显示
+		{
+			pen.CreatePen(m_LineType,(int)m_LineWide+7,RGB(255,255,0));
+			pDC->SelectObject(&pen);
+			if(m_lb==5)  //绘制直线
+		{
+			pDC->Polyline(ppoint,m_Numble);
+		}
+		if(m_lb==6)  //绘制多边形
+		{
+			if(m_BrushType==6) pDC->SelectStockObject(NULL_BRUSH);
+			pDC->Polygon(ppoint,m_Numble);
+		}
+		pen.DeleteObject();
+		}
+
 		pen.DeleteObject();
 		pen.CreatePen(m_LineType,(int)m_LineWide,m_ColorPen);
 		pDC->SelectObject(&pen);
@@ -79,4 +96,70 @@ void CPLine::Serialize(CArchive& ar)
 		for(int i=0;i<m_Numble;i++)
 			ar>>m_PointList[i].x>>m_PointList[i].y;
 	}
+}
+
+bool CPLine::IsPoint(CDC* pDC,float px,float py)
+{
+	if(b_Delete)
+		return FALSE;
+	CRgn rgn;
+	int x1,y1;
+	int i;
+	POINT* ppoint;
+	ppoint=new POINT[m_Numble];
+	for(i=0;i<m_Numble;i++)
+	{
+		x1=m_PointList[i].x,y1=m_PointList[i].y;
+		ppoint[i].x=x1;     ppoint[i].y=y1;
+	}
+	if(m_lb==6)
+		rgn.CreatePolygonRgn(ppoint,m_Numble,1);
+	else
+	{
+		pDC->BeginPath();
+		pDC->Polyline(ppoint,m_Numble);
+		pDC->EndPath();
+		pDC->WidenPath();
+		pDC->WidenPath();
+		pDC->WidenPath();
+		pDC->WidenPath();
+		pDC->WidenPath();
+		rgn.CreateFromPath(pDC);
+	}
+	i=rgn.PtInRegion(px,py);
+	rgn.DeleteObject();
+	return i;
+}
+
+bool CPLine::IsRect(CDC* pDC,CRect r)
+{
+	if(b_Delete)
+		return FALSE;
+	CRgn rgn;
+	int x1,y1;
+	int i;
+	POINT* ppoint;
+	ppoint=new POINT[m_Numble];
+	for(i=0;i<m_Numble;i++)
+	{
+		x1=m_PointList[i].x,y1=m_PointList[i].y;
+		ppoint[i].x=x1;     ppoint[i].y=y1;
+	}
+	if(m_lb==6)
+		rgn.CreatePolygonRgn(ppoint,m_Numble,1);
+	else
+	{
+		pDC->BeginPath();
+		pDC->Polyline(ppoint,m_Numble);
+		pDC->EndPath();
+		pDC->WidenPath();
+		pDC->WidenPath();
+		pDC->WidenPath();
+		pDC->WidenPath();
+		pDC->WidenPath();
+		rgn.CreateFromPath(pDC);
+	}
+	i=rgn.RectInRegion(r);
+	rgn.DeleteObject();
+	return i;
 }

@@ -31,12 +31,14 @@ CGIS21_图说地理Doc::CGIS21_图说地理Doc()
 {
 	// TODO: 在此添加一次性构造代码
 	m_Index=new int[20000];
-
+	GraphSelect=new GraphSelectStruct[2000];
+	n_GraphSelect=0;
 }
 
 CGIS21_图说地理Doc::~CGIS21_图说地理Doc()
 {
 	delete m_Index;
+	delete GraphSelect;
 }
 
 BOOL CGIS21_图说地理Doc::OnNewDocument()
@@ -274,4 +276,21 @@ void CGIS21_图说地理Doc::Draw(CDC *pDC,int m_DrawMode)
 			GetGraph(i,j)->Draw(pDC,m_DrawMode,0);
 		}
 	}
+	//重绘选择的图形
+	for(int i=0;i<n_GraphSelect;i++)
+	{
+		GetGraph(GraphSelect[i].Lb,GraphSelect[i].Index)->Draw(pDC,1,0);
+	}
+}
+
+BOOL CGIS21_图说地理Doc::AddSelectList(int Lb,int Index)
+{
+	for(int i=0;i<n_GraphSelect;i++)
+	{
+		if(Lb==GraphSelect[i].Lb&&Index==GraphSelect[i].Index)
+			return FALSE;
+	}
+	GraphSelect[n_GraphSelect].Lb=Lb;
+	GraphSelect[n_GraphSelect++].Index=Index;
+	return TRUE;
 }

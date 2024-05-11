@@ -6,9 +6,6 @@
 class CPLine :
 	public CDraw
 {
-
-	
-
 public:
 	CPLine();
 	~CPLine(void);
@@ -23,4 +20,6 @@ protected:
 
 public:
 	virtual void Serialize(CArchive& ar);
+	bool IsPoint(CDC* pDC,float px,float py);
+	bool IsRect(CDC* pDC,CRect r);
 };

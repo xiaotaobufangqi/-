@@ -28,5 +28,7 @@ protected:
 
 public:
 	virtual void Serialize(CArchive& ar);
+	virtual bool IsPoint(CDC* pDC,float x,float y)=0; //µ„—°
+	virtual bool IsRect(CDC* pDC,CRect r)=0; //øÚ—°
 };
 

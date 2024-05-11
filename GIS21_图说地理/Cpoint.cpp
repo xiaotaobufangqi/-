@@ -32,15 +32,15 @@ void Cpoint::Draw(CDC *pDC,int Mode,int buff)
 	r=m_CircleR;
 	//三角形
 	CPoint c[3];
-	c[0].x=x;   c[0].y=y-15;
-	c[1].x=x-cos(30*3.14/180)*10;   c[1].y=y+2;
-	c[2].x=x+cos(30*3.14/180)*10;   c[2].y=y+2;
+	c[0].x=x;   c[0].y=y-10;
+	c[1].x=x-cos(10*3.14/180)*8;   c[1].y=y+2;
+	c[2].x=x+cos(10*3.14/180)*8;   c[2].y=y+2;
 	//五角星
 	CPoint pts[5];
 	 for(int i = 0; i < 5; i++)
 	{
-		pts[i].x = (long)(m_CircleX - 15 * cos((i * 144 - 18) * 3.14 / 180));
-		pts[i].y = (long)(m_CircleY + 15 * sin((i * 144 - 18) * 3.14 / 180));
+		pts[i].x = (long)(m_CircleX - 10 * cos((i * 144 - 18) * 3.14 / 180));
+		pts[i].y = (long)(m_CircleY + 10 * sin((i * 144 - 18) * 3.14 / 180));
 	}
 	 //心
 	CArray<CPoint,const CPoint &> lines;
@@ -50,9 +50,20 @@ void Cpoint::Draw(CDC *pDC,int Mode,int buff)
 		float y=13*cosf(t)-5*cosf(2*t)-2*cosf(3*t)-cosf(4*t);
 		lines.Add(CPoint(x*1+m_CircleX,-y*1+m_CircleY));
 	}
-
 	CBrush brush(m_ColorBrush);
 	oldbrush=pDC->SelectObject(&brush);
+
+	if(Mode==1)
+	{
+		pen.CreatePen(m_LineType,(int)m_LineWide+12,RGB(255,255,0));
+		pDC->SelectObject(&pen);
+		if(m_Lb==1)  pDC->Ellipse(x-r,y-r,x+r,y+r);  //绘制圆
+	if(m_Lb==2) pDC->Polygon(c,3);  //三角形
+	if(m_Lb==3) pDC->Polygon(pts, 5);  //五角星
+	if(m_Lb==4) pDC->Polygon(&lines[0], lines.GetSize());//心形
+	}
+	pen.DeleteObject();
+
 	pen.CreatePen(m_LineType,(int)m_LineWide,m_ColorPen);   //设定画笔的线型，宽度，颜色
 	pDC->SelectObject(&pen);
 	pDC->SetBkMode(OPAQUE);
@@ -77,4 +88,84 @@ void Cpoint::Serialize(CArchive& ar)
 	{	// loading code
 		ar>>m_CircleR>>m_CircleX>>m_CircleY>>m_Lb;
 	}
+}
+
+bool Cpoint::IsPoint(CDC* pDC,float px,float py)
+{
+	if(b_Delete) return FALSE;
+	CRgn rgn;
+	int i,x,y;
+	float r;
+	x=m_CircleX;
+	y=m_CircleY;
+	r=m_CircleR;
+
+	//三角形
+	CPoint c[3];
+	c[0].x=x;   c[0].y=y-10;
+	c[1].x=x-cos(10*3.14/180)*8;   c[1].y=y+2;
+	c[2].x=x+cos(10*3.14/180)*8;   c[2].y=y+2;
+	//五角星
+	CPoint pts[5];
+	 for(int i = 0; i < 5; i++)
+	{
+		pts[i].x = (long)(m_CircleX - 10 * cos((i * 144 - 18) * 3.14 / 180));
+		pts[i].y = (long)(m_CircleY + 10 * sin((i * 144 - 18) * 3.14 / 180));
+	}
+	 //心
+	CArray<CPoint,const CPoint &> lines;
+	for(float t=0;t<2*3.14;t+=0.001)
+	{
+		float x=16*pow(sinf(t),3);
+		float y=13*cosf(t)-5*cosf(2*t)-2*cosf(3*t)-cosf(4*t);
+		lines.Add(CPoint(x*1+m_CircleX,-y*1+m_CircleY));
+	}
+
+	if(m_Lb==1)  rgn.CreateEllipticRgn(x-r,y-r,x+r,y+r);  //绘制圆
+	if(m_Lb==2) rgn.CreatePolygonRgn(c,3,1);  //三角形
+	if(m_Lb==3) rgn.CreatePolygonRgn(pts, 5,1);  //五角星
+	if(m_Lb==4) rgn.CreatePolygonRgn(&lines[0], lines.GetSize(),1);//心形
+	i=rgn.PtInRegion(px,py);
+	rgn.DeleteObject();
+	return i;
+}
+
+bool Cpoint::IsRect(CDC* pDC,CRect rr)
+{
+	if(b_Delete) return FALSE;
+	CRgn rgn;
+	int i,x,y;
+	float r;
+	x=m_CircleX;
+	y=m_CircleY;
+	r=m_CircleR;
+
+	//三角形
+	CPoint c[3];
+	c[0].x=x;   c[0].y=y-10;
+	c[1].x=x-cos(10*3.14/180)*8;   c[1].y=y+2;
+	c[2].x=x+cos(10*3.14/180)*8;   c[2].y=y+2;
+	//五角星
+	CPoint pts[5];
+	 for(int i = 0; i < 5; i++)
+	{
+		pts[i].x = (long)(m_CircleX - 10 * cos((i * 144 - 18) * 3.14 / 180));
+		pts[i].y = (long)(m_CircleY + 10 * sin((i * 144 - 18) * 3.14 / 180));
+	}
+	 //心
+	CArray<CPoint,const CPoint &> lines;
+	for(float t=0;t<2*3.14;t+=0.001)
+	{
+		float x=16*pow(sinf(t),3);
+		float y=13*cosf(t)-5*cosf(2*t)-2*cosf(3*t)-cosf(4*t);
+		lines.Add(CPoint(x*1+m_CircleX,-y*1+m_CircleY));
+	}
+
+	if(m_Lb==1)  rgn.CreateEllipticRgn(x-r,y-r,x+r,y+r);  //绘制圆
+	if(m_Lb==2) rgn.CreatePolygonRgn(c,3,1);  //三角形
+	if(m_Lb==3) rgn.CreatePolygonRgn(pts, 5,1);  //五角星
+	if(m_Lb==4) rgn.CreatePolygonRgn(&lines[0], lines.GetSize(),1);//心形
+	i=rgn.RectInRegion(rr);
+	rgn.DeleteObject();
+	return i;
 }

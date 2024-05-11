@@ -50,6 +50,10 @@ BEGIN_MESSAGE_MAP(CGIS21_图说地理View, CView)
 	ON_COMMAND(ID_draw_text, &CGIS21_图说地理View::OnDrawText)
 	ON_UPDATE_COMMAND_UI(ID_draw_text, &CGIS21_图说地理View::OnUpdateDrawText)
 	ON_COMMAND(ID_jiazaiditu, &CGIS21_图说地理View::OnJiazaiditu)
+	ON_COMMAND(ID_dianxuan, &CGIS21_图说地理View::OnDianxuan)
+	ON_UPDATE_COMMAND_UI(ID_dianxuan, &CGIS21_图说地理View::OnUpdateDianxuan)
+	ON_COMMAND(ID_kuangxuan, &CGIS21_图说地理View::OnKuangxuan)
+	ON_UPDATE_COMMAND_UI(ID_kuangxuan, &CGIS21_图说地理View::OnUpdateKuangxuan)
 END_MESSAGE_MAP()
 
 // CGIS21_图说地理View 构造/析构
@@ -186,7 +190,7 @@ void CGIS21_图说地理View::OnLButtonDown(UINT nFlags, CPoint point)
 			SetCapture();
 			id_only=pDoc->GetGraphID(1);
 			xx=point.x;     yy=point.y;
-			pDoc->AddPoint(m_pColor,m_brColor,m_LineWide,m_LineType,m_BrushType,id_only,xx,yy,10,m_DrawCurrent)->Draw(&ht,0,0);
+			pDoc->AddPoint(m_pColor,m_brColor,m_LineWide,m_LineType,m_BrushType,id_only,xx,yy,5,m_DrawCurrent)->Draw(&ht,0,0);
 			PushNumb=0;
 			ReleaseCapture();
 		}
@@ -226,6 +230,59 @@ void CGIS21_图说地理View::OnLButtonDown(UINT nFlags, CPoint point)
 				m_TextX=point.x,m_TextY=point.y;
 				id_only=pDoc->GetGraphID(3);
 				pDoc->AddText(m_pColor,m_brColor,m_LineWide,m_LineType,m_BrushType,id_only,m_TextX,m_TextY,m_TextAngle,m_FontHeight,m_FontWide,m_FontWeight,m_TextString)->Draw(&ht,0,0);
+			}
+		}
+	}
+	else if(m_DrawCurrent==81)  //进行鼠标点选图形操作
+	{
+		if(pDoc->n_GraphSelect==2000) 
+		{
+			AfxMessageBox(_T("最多只能选择2000个图形元素"));
+			return;
+		}
+
+		for(int i=1;i<=3;i++)
+		{
+			int nn=pDoc->GetGraphUpperBound(i);
+			for(int j=0;j<=nn;j++)
+			{
+				BOOL pb=pDoc->GetGraph(i,j)->IsPoint(&ht,point.x,point.y);
+				if(pb) //如果选中了图形元素，记录下选中顶图形元素，特殊显示次图形元素
+				{
+					BOOL pb1=pDoc->AddSelectList(i,j);
+					if(pb1)
+						pDoc->GetGraph(i,j)->Draw(&ht,1,0);
+				}
+			}
+		}
+	}
+	else if(m_DrawCurrent==82)  //进行鼠标拉框选择图形操作
+	{
+		int xx1,yy1,xx2,yy2;
+		if(pDoc->n_GraphSelect==2000) 
+		{
+			AfxMessageBox(_T("最多只能选择2000个图形元素"));
+			return;
+		}
+		CRectTracker tracker;
+		tracker.TrackRubberBand(this,point);
+		xx1=min(tracker.m_rect.left,tracker.m_rect.right);
+		yy1=min(tracker.m_rect.top,tracker.m_rect.bottom);
+		xx2=max(tracker.m_rect.right,tracker.m_rect.left);
+		yy2=max(tracker.m_rect.bottom,tracker.m_rect.top);
+		CRect rr(xx1,yy1,xx2,yy2);
+		for(int i=1;i<=3;i++)
+		{
+			int nn=pDoc->GetGraphUpperBound(i);
+			for(int j=0;j<=nn;j++)
+			{
+				BOOL pb=pDoc->GetGraph(i,j)->IsRect(&ht,rr);
+				if(pb) //如果选中了图形元素，记录下选中顶图形元素，特殊显示次图形元素
+				{
+					BOOL pb1=pDoc->AddSelectList(i,j);
+					if(pb1)
+						pDoc->GetGraph(i,j)->Draw(&ht,1,0);
+				}
 			}
 		}
 	}
@@ -425,5 +482,57 @@ void CGIS21_图说地理View::OnUpdateDrawText(CCmdUI *pCmdUI)
 void CGIS21_图说地理View::OnJiazaiditu()
 {
 	// TODO: 在此添加命令处理程序代码
-	m_DrawCurrent=0;	CClientDC ddd(this);	CImage m_image;	CFileDialog dlg(TRUE); if(dlg.DoModal()==IDOK)    {  CString  name=dlg.GetPathName();	m_image.Load(name);	if ( m_image.IsNull()){	MessageBox(_T("没加载成功")); return ;} if ( m_image.GetBPP() == 32) {	int i, j;	for (i = 0; i <  m_image.GetWidth(); i++)	{	for (j = 0; j <  m_image.GetHeight(); j++)		{	byte *pByte = (byte *) m_image.GetPixelAddress(i, j);			pByte[0] = pByte[0] * pByte[3] / 255;			pByte[1] = pByte[1] * pByte[3] / 255;			pByte[2] = pByte[2] * pByte[3] / 255;		}	}} m_image.Draw(ddd.m_hDC, 0, 0);  m_image.Destroy();}
+	m_DrawCurrent=0;
+	CClientDC ddd(this);
+	CImage m_image;
+	CFileDialog dlg(TRUE); 
+if(dlg.DoModal()==IDOK)
+    {  CString  name=dlg.GetPathName();
+	m_image.Load(name);
+	if ( m_image.IsNull()){	MessageBox(_T("没加载成功")); return ;} 
+if ( m_image.GetBPP() == 32) 
+{	int i, j;
+	for (i = 0; i <  m_image.GetWidth(); i++)
+	{	for (j = 0; j <  m_image.GetHeight(); j++)
+		{	byte *pByte = (byte *) m_image.GetPixelAddress(i, j);
+			pByte[0] = pByte[0] * pByte[3] / 255;
+			pByte[1] = pByte[1] * pByte[3] / 255;
+			pByte[2] = pByte[2] * pByte[3] / 255;
+		}
+	}
+}
+ m_image.Draw(ddd.m_hDC, 0, 0); 
+ m_image.Destroy();
+}
+
+}
+
+
+void CGIS21_图说地理View::OnDianxuan()
+{
+	// TODO: 在此添加命令处理程序代码;
+	m_DrawCurrent=81;
+	PushNumb=0;
+}
+
+
+void CGIS21_图说地理View::OnUpdateDianxuan(CCmdUI *pCmdUI)
+{
+	// TODO: 在此添加命令更新用户界面处理程序代码
+	pCmdUI->SetCheck(m_DrawCurrent==81);
+}
+
+
+void CGIS21_图说地理View::OnKuangxuan()
+{
+	// TODO: 在此添加命令处理程序代码
+	m_DrawCurrent=82;
+	PushNumb=0;
+}
+
+
+void CGIS21_图说地理View::OnUpdateKuangxuan(CCmdUI *pCmdUI)
+{
+	// TODO: 在此添加命令更新用户界面处理程序代码
+	pCmdUI->SetCheck(m_DrawCurrent==82);
 }

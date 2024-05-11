@@ -10,6 +10,13 @@
 #include"PLine.h"
 #include"Text.h"
 
+typedef struct
+{
+	short int Lb;  //类别
+	short int Index;   //序号
+	short buff;  //缓冲区
+}GraphSelectStruct;  //用来存储选中图形元素的结构
+
 
 class CGIS21_图说地理Doc : public CDocument
 {
@@ -35,8 +42,12 @@ protected: // 仅从序列化创建
 
 	void Draw(CDC *pDC,int m_DrawMode);
 
+	BOOL AddSelectList(int Lb,int Index);
+
 // 特性
 public:
+	int n_GraphSelect;  //选中图形元素的数目
+	GraphSelectStruct* GraphSelect;  //存储选中元素的性质
 
 // 操作
 public:

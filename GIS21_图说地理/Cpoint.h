@@ -16,5 +16,7 @@ protected:
 	short m_Lb;//Àà±ð
 public:
 	virtual void Serialize(CArchive& ar);
+	bool IsPoint(CDC* pDC,float px,float py);
+	bool IsRect(CDC* pDC,CRect r);
 };
 

@@ -20,5 +20,8 @@ protected:
 	WORD m_TextLong;//标注的信息长度，不用传参，通过Text.GetLength()计算
 public:
 	virtual void Serialize(CArchive& ar);
+	bool IsPoint(CDC* pDC,float px,float py);
+	void GetRect(float* minX,float* minY,float* maxX,float* maxY);
+	bool IsRect(CDC* pDC,CRect r);
 };
 
