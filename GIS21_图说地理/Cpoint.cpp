@@ -64,6 +64,25 @@ void Cpoint::Draw(CDC *pDC,int Mode,int buff)
 	}
 	pen.DeleteObject();
 
+	if(Mode==2)  //缓冲区后特殊显示
+	{
+		CRgn rgn;
+		CPen penb(1,(int)buff,RGB(255,255,0));
+		CBrush brushb(m_BrushType,m_ColorBrush);
+		pDC->BeginPath();
+		pDC->SetBkMode(TRANSPARENT);
+		pDC->SelectObject(&penb);
+		if(m_Lb==1)  pDC->Ellipse(x-r,y-r,x+r,y+r);  //绘制圆
+	if(m_Lb==2) pDC->Polygon(c,3);  //三角形
+	if(m_Lb==3) pDC->Polygon(pts, 5);  //五角星
+	if(m_Lb==4) pDC->Polygon(&lines[0], lines.GetSize());//心形
+		pDC->EndPath();
+		pDC->WidenPath();
+		rgn.CreateFromPath(pDC);
+		pDC->FillRgn(&rgn,&brushb);
+		return;
+	}
+
 	pen.CreatePen(m_LineType,(int)m_LineWide,m_ColorPen);   //设定画笔的线型，宽度，颜色
 	pDC->SelectObject(&pen);
 	pDC->SetBkMode(OPAQUE);

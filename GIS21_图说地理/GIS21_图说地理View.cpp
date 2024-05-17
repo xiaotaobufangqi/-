@@ -13,6 +13,7 @@
 #include "GIS21_图说地理View.h"
 #include "Tool.h"
 #include "TextDlg.h"
+#include "Mess.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -54,6 +55,11 @@ BEGIN_MESSAGE_MAP(CGIS21_图说地理View, CView)
 	ON_UPDATE_COMMAND_UI(ID_dianxuan, &CGIS21_图说地理View::OnUpdateDianxuan)
 	ON_COMMAND(ID_kuangxuan, &CGIS21_图说地理View::OnKuangxuan)
 	ON_UPDATE_COMMAND_UI(ID_kuangxuan, &CGIS21_图说地理View::OnUpdateKuangxuan)
+	ON_COMMAND(ID_fial_select, &CGIS21_图说地理View::OnFialSelect)
+	ON_COMMAND(ID_SeleDele, &CGIS21_图说地理View::OnSeledele)
+	ON_COMMAND(ID_quxiaodelete, &CGIS21_图说地理View::OnQuxiaodelete)
+	ON_COMMAND(ID_SelePack, &CGIS21_图说地理View::OnSelepack)
+	ON_COMMAND(ID_Buffer, &CGIS21_图说地理View::OnBuffer)
 END_MESSAGE_MAP()
 
 // CGIS21_图说地理View 构造/析构
@@ -535,4 +541,80 @@ void CGIS21_图说地理View::OnUpdateKuangxuan(CCmdUI *pCmdUI)
 {
 	// TODO: 在此添加命令更新用户界面处理程序代码
 	pCmdUI->SetCheck(m_DrawCurrent==82);
+}
+
+
+void CGIS21_图说地理View::OnFialSelect()
+{
+	// TODO: 在此添加命令处理程序代码
+	m_DrawCurrent=83;
+	PushNumb=0;
+	CGIS21_图说地理Doc* pDoc=GetDocument();
+	pDoc->n_GraphSelect--;
+	Invalidate();
+}
+
+
+void CGIS21_图说地理View::OnSeledele()
+{
+	// TODO: 在此添加命令处理程序代码
+	m_DrawCurrent=84;
+	PushNumb=0;
+	CGIS21_图说地理Doc* pDoc=GetDocument();
+	CClientDC ht(this);
+	CDraw* pDraw;
+	for(int i=0;i<pDoc->n_GraphSelect;++i) //删除选中的图形
+	{
+		pDraw=pDoc->GetGraph(pDoc->GraphSelect[i].Lb,pDoc->GraphSelect[i].Index);
+		pDraw->Delete(1);
+		Invalidate();
+	}
+}
+
+
+void CGIS21_图说地理View::OnQuxiaodelete()
+{
+	// TODO: 在此添加命令处理程序代码
+	m_DrawCurrent=85;
+	PushNumb=0;
+	CGIS21_图说地理Doc* pDoc=GetDocument();
+	CClientDC ht(this);
+	CDraw* pDraw;
+	for(int i=0;i<pDoc->n_GraphSelect;++i) //删除选中的图形
+	{
+		pDraw=pDoc->GetGraph(pDoc->GraphSelect[i].Lb,pDoc->GraphSelect[i].Index);
+		pDraw->Delete(0);
+		Invalidate();
+	}
+}
+
+
+void CGIS21_图说地理View::OnSelepack()
+{
+	// TODO: 在此添加命令处理程序代码
+	m_DrawCurrent=86;
+	PushNumb=0;
+	CGIS21_图说地理Doc* pDoc=GetDocument();
+	pDoc->OnPack();
+	pDoc->n_GraphSelect=0;
+	Invalidate();
+}
+
+
+void CGIS21_图说地理View::OnBuffer()
+{
+	// TODO: 在此添加命令处理程序代码
+	MessageBox(_T("请注意，当前是对您最后选中的图形做缓冲区！"));
+	CGIS21_图说地理Doc* pDoc=GetDocument();
+	if(pDoc->n_GraphSelect==0||pDoc->GraphSelect[pDoc->n_GraphSelect-1].Lb==3)
+	{
+		MessageBox(_T("请选中一个图形!"));
+		return;
+	}
+	CMess dlg;
+	if(dlg.DoModal()==IDOK)
+		pDoc->GraphSelect[pDoc->n_GraphSelect-1].buff=dlg.bufflong;
+	int x=(dlg.bufflong);
+	CClientDC ddd(this);
+	pDoc->GetGraph(pDoc->GraphSelect[pDoc->n_GraphSelect-1].Lb,pDoc->GraphSelect[pDoc->n_GraphSelect-1].Index)->Draw(&ddd,2,x);
 }

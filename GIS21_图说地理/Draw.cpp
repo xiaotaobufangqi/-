@@ -40,3 +40,16 @@ void CDraw::Serialize(CArchive& ar)
 		ar>>b_Delete>>m_ColorPen>>m_ColorBrush>>m_LineWide>>m_LineType>>m_BrushType>>m_id_only;
 	}
 }
+
+void CDraw::Delete(BOOL Is)
+{
+	if(Is)
+		b_Delete=TRUE;
+	else
+		b_Delete=FALSE;
+}
+
+BOOL CDraw::IsDelete()
+{
+	return b_Delete;
+}

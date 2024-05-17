@@ -44,6 +44,8 @@ protected: // 仅从序列化创建
 
 	BOOL AddSelectList(int Lb,int Index);
 
+	void OnPack();
+
 // 特性
 public:
 	int n_GraphSelect;  //选中图形元素的数目

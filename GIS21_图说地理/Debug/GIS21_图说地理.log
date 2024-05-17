@@ -1,27 +1,11 @@
-﻿生成启动时间为 2024/5/11 11:55:15。
+﻿生成启动时间为 2024/5/17 16:09:47。
      1>项目“C:\Users\Administrator\Desktop\图说地理\GIS21_图说地理\GIS21_图说地理.vcxproj”在节点 2 上(build 个目标)。
      1>InitializeBuildStatus:
          正在创建“Debug\GIS21_图说地理.unsuccessfulbuild”，因为已指定“AlwaysCreate”。
        ClCompile:
          所有输出均为最新。
-         d:\visual studio\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D _UNICODE /D UNICODE /D _AFXDLL /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"Debug\GIS21_图说地理.pch" /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt "GIS21_图说地理View.cpp"
-         GIS21_图说地理View.cpp
-     1>c:\users\administrator\desktop\图说地理\gis21_图说地理\gis21_图说地理view.cpp(192): warning C4244: “=”: 从“LONG”转换到“float”，可能丢失数据
-     1>c:\users\administrator\desktop\图说地理\gis21_图说地理\gis21_图说地理view.cpp(192): warning C4244: “=”: 从“LONG”转换到“float”，可能丢失数据
-     1>c:\users\administrator\desktop\图说地理\gis21_图说地理\gis21_图说地理view.cpp(200): warning C4244: “=”: 从“LONG”转换到“float”，可能丢失数据
-     1>c:\users\administrator\desktop\图说地理\gis21_图说地理\gis21_图说地理view.cpp(201): warning C4244: “=”: 从“LONG”转换到“float”，可能丢失数据
-     1>c:\users\administrator\desktop\图说地理\gis21_图说地理\gis21_图说地理view.cpp(223): warning C4244: “=”: 从“UINT”转换到“float”，可能丢失数据
-     1>c:\users\administrator\desktop\图说地理\gis21_图说地理\gis21_图说地理view.cpp(224): warning C4244: “=”: 从“UINT”转换到“float”，可能丢失数据
-     1>c:\users\administrator\desktop\图说地理\gis21_图说地理\gis21_图说地理view.cpp(225): warning C4244: “=”: 从“UINT”转换到“float”，可能丢失数据
-     1>c:\users\administrator\desktop\图说地理\gis21_图说地理\gis21_图说地理view.cpp(226): warning C4244: “=”: 从“int”转换到“float”，可能丢失数据
-     1>c:\users\administrator\desktop\图说地理\gis21_图说地理\gis21_图说地理view.cpp(230): warning C4244: “=”: 从“LONG”转换到“float”，可能丢失数据
-     1>c:\users\administrator\desktop\图说地理\gis21_图说地理\gis21_图说地理view.cpp(230): warning C4244: “=”: 从“LONG”转换到“float”，可能丢失数据
-     1>c:\users\administrator\desktop\图说地理\gis21_图说地理\gis21_图说地理view.cpp(249): warning C4244: “参数”: 从“LONG”转换到“float”，可能丢失数据
-     1>c:\users\administrator\desktop\图说地理\gis21_图说地理\gis21_图说地理view.cpp(249): warning C4244: “参数”: 从“LONG”转换到“float”，可能丢失数据
-     1>c:\users\administrator\desktop\图说地理\gis21_图说地理\gis21_图说地理view.cpp(429): warning C4244: “=”: 从“float”转换到“LONG”，可能丢失数据
-     1>c:\users\administrator\desktop\图说地理\gis21_图说地理\gis21_图说地理view.cpp(430): warning C4244: “=”: 从“float”转换到“LONG”，可能丢失数据
-     1>c:\users\administrator\desktop\图说地理\gis21_图说地理\gis21_图说地理view.cpp(420): warning C4101: “y1”: 未引用的局部变量
-     1>c:\users\administrator\desktop\图说地理\gis21_图说地理\gis21_图说地理view.cpp(420): warning C4101: “x1”: 未引用的局部变量
+         d:\visual studio\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D _UNICODE /D UNICODE /D _AFXDLL /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"Debug\GIS21_图说地理.pch" /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt "GIS21_图说地理Doc.cpp"
+         GIS21_图说地理Doc.cpp
        ResourceCompile:
          所有输出均为最新。
        ManifestResourceCompile:
@@ -36,6 +20,7 @@
          "Debug\GIS21_图说地理Doc.obj"
          "Debug\GIS21_图说地理View.obj"
          Debug\MainFrm.obj
+         Debug\Mess.obj
          Debug\PLine.obj
          Debug\stdafx.obj
          Debug\Text.obj
@@ -54,4 +39,4 @@
 
 生成成功。
 
-已用时间 00:00:00.40
+已用时间 00:00:00.45

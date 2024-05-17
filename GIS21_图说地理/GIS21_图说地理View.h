@@ -81,6 +81,11 @@ public:
 	afx_msg void OnUpdateDianxuan(CCmdUI *pCmdUI);
 	afx_msg void OnKuangxuan();
 	afx_msg void OnUpdateKuangxuan(CCmdUI *pCmdUI);
+	afx_msg void OnFialSelect();
+	afx_msg void OnSeledele();
+	afx_msg void OnQuxiaodelete();
+	afx_msg void OnSelepack();
+	afx_msg void OnBuffer();
 };
 
 #ifndef _DEBUG  // GIS21_图说地理View.cpp 中的调试版本

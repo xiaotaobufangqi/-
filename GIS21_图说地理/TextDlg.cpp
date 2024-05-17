@@ -14,8 +14,8 @@ IMPLEMENT_DYNAMIC(CTextDlg, CDialogEx)
 CTextDlg::CTextDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(CTextDlg::IDD, pParent)
 	, m_text(_T(""))
-	, m_high(0)
-	, m_width(0)
+	, m_high(20)
+	, m_width(10)
 	, m_angle(0)
 	, m_weight(0)
 {
@@ -50,6 +50,7 @@ BEGIN_MESSAGE_MAP(CTextDlg, CDialogEx)
 	ON_EN_CHANGE(IDC_EDIT1, &CTextDlg::OnEnChangeEdit1)
 	ON_NOTIFY(NM_CUSTOMDRAW, IDC_SLIDER1, &CTextDlg::OnNMCustomdrawSlider1)
 	ON_EN_CHANGE(IDC_EDIT3, &CTextDlg::OnEnChangeEdit3)
+	ON_BN_CLICKED(IDOK, &CTextDlg::OnBnClickedOk)
 END_MESSAGE_MAP()
 
 
@@ -114,4 +115,11 @@ void CTextDlg::OnEnChangeEdit3()
 	// 同时将 ENM_CHANGE 标志“或”运算到掩码中。
 
 	// TODO:  在此添加控件通知处理程序代码
+}
+
+
+void CTextDlg::OnBnClickedOk()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	CDialogEx::OnOK();
 }

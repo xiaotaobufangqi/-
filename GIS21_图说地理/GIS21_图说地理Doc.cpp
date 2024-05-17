@@ -279,7 +279,13 @@ void CGIS21_图说地理Doc::Draw(CDC *pDC,int m_DrawMode)
 	//重绘选择的图形
 	for(int i=0;i<n_GraphSelect;i++)
 	{
-		GetGraph(GraphSelect[i].Lb,GraphSelect[i].Index)->Draw(pDC,1,0);
+		GetGraph(GraphSelect[i].Lb,GraphSelect[i].Index)->Draw(pDC,1,0); //选中显示
+
+		if(GraphSelect[i].buff!=0)
+		{
+			int x=(GraphSelect[i].buff);
+			GetGraph(GraphSelect[i].Lb,GraphSelect[i].Index)->Draw(pDC,2,x); //缓冲区显示
+		}
 	}
 }
 
@@ -291,6 +297,24 @@ BOOL CGIS21_图说地理Doc::AddSelectList(int Lb,int Index)
 			return FALSE;
 	}
 	GraphSelect[n_GraphSelect].Lb=Lb;
+	GraphSelect[n_GraphSelect].buff=0;
 	GraphSelect[n_GraphSelect++].Index=Index;
 	return TRUE;
+}
+
+void CGIS21_图说地理Doc::OnPack()
+{
+	for(int i=0;i<=3;i++)
+	{
+		int nn=GetGraphUpperBound(i);
+		for(int j=0;j<=nn;j++)
+		{
+			if(GetGraph(i,j))
+				if(GetGraph(i,j)->IsDelete()) 
+					DeleteGraph(i,j);
+		}
+	}
+	n_GraphSelect=0;
+	SetModifiedFlag(1);
+	UpdateAllViews(NULL);
 }

@@ -16,6 +16,8 @@ public:
 	CDraw(COLORREF ColorPen,COLORREF ColorBrush,short LineWide,short LineType,short BrushType,int id_only,BOOL Delete);
 	virtual void Draw(CDC *pDC,int Mode,int buff)=0;
 	int GetID();
+	void Delete(BOOL Is);
+	BOOL IsDelete();
 protected:
 	COLORREF m_ColorPen;//±ÊÉ«
 	COLORREF m_ColorBrush;//Ìî³äË¢ÑÕÉ«

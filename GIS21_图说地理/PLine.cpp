@@ -58,6 +58,30 @@ void CPLine::Draw(CDC *pDC,int Mode,int buff)
 		pen.DeleteObject();
 		}
 
+		if(Mode==2)  //缓冲区后特殊显示
+	{
+		CRgn rgn;
+		CPen penb(1,(int)buff,RGB(255,255,0));
+		CBrush brushb(m_BrushType,m_ColorBrush);
+		pDC->BeginPath();
+		pDC->SetBkMode(TRANSPARENT);
+		pDC->SelectObject(&penb);
+		if(m_lb==5)  //绘制直线
+		{
+			pDC->Polyline(ppoint,m_Numble);
+		}
+		if(m_lb==6)  //绘制多边形
+		{
+			if(m_BrushType==6) pDC->SelectStockObject(NULL_BRUSH);
+			pDC->Polygon(ppoint,m_Numble);
+		}
+		pDC->EndPath();
+		pDC->WidenPath();
+		rgn.CreateFromPath(pDC);
+		pDC->FillRgn(&rgn,&brushb);
+		return;
+	}
+
 		pen.DeleteObject();
 		pen.CreatePen(m_LineType,(int)m_LineWide,m_ColorPen);
 		pDC->SelectObject(&pen);

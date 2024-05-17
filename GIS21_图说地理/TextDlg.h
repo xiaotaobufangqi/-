@@ -33,4 +33,5 @@ public:
 	UINT m_angle;
 	CSliderCtrl m_slider;
 	int m_weight;
+	afx_msg void OnBnClickedOk();
 };

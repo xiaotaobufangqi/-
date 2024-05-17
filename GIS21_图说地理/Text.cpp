@@ -76,15 +76,11 @@ bool CText::IsPoint(CDC* pDC,float px,float py)
 		return FALSE;
 	CRgn rgn;
 	float xx1,yy1,xx2,yy2;
-	float xx3,yy3,xx4,yy4;
+	int xx3,yy3,xx4,yy4;
 	bool i;
 	GetRect(&xx1,&yy1,&xx2,&yy2);
 	xx3=xx1;yy3=yy1;
 	xx4=xx2;yy4=yy2;
-	if(xx3==xx4||xx4==yy4)
-	{
-		xx3-=10;yy3-=10;xx4+=10;yy4+=10;
-	}
 	rgn.CreateRectRgn(xx3,yy3,xx4,yy4);
 	i=rgn.PtInRegion(px,py);
 	rgn.DeleteObject();
